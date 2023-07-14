@@ -205,7 +205,7 @@ int main ()
 	        break;
 	     		     	
 	     	default:
-	     	printf("Esta opção não está disponivel!\n\n"); //caso o usuário escolha uma opção fora das 3 disponiveis
+	     	printf("Esta opção não está disponivel!\n\n"); //caso o usuário escolha uma opção fora das 4 disponiveis
 			system("pause"); 
 			break; //Fim da seleção
 			
