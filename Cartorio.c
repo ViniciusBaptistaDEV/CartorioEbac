@@ -162,8 +162,35 @@ int deletar()
 	
 }
 
-
-
+int sair ()
+{
+	int resposta=0;
+	
+	printf("Voce tem certeza que deseja sair do sistema?\n\n"); //Faz a validação se o usuário quer sair do sistema
+    printf("1 - Sair\n");
+	printf("2 - Voltar ao menu\n\n");
+	printf("Digite uma opção: ");
+	scanf("%d", &resposta); //guarda a resposta do usuário
+	
+	switch(resposta) //faz a analise da resposta do usuário
+	{
+		case 1:
+		printf("\n\nObrigado por utilizar o sistema!\n");
+	    printf("\n\n\n*** Software desenvolvido por Vinicius Baptista ***\n\n");
+	    system("pause");
+	    return 0;//retorna 0 para o sistema, e o encerra
+	    break;
+	    
+		case 2:
+		main(); //retorna ao menu principal
+		break;
+	
+	    default:
+    	printf("\nOpção invalida!\n\n"); //retorna mensagem, e após retorna o sistema ao menu principal
+    	system("pause");
+    	break;
+	}
+}
 
 int main ()
 {
@@ -205,9 +232,7 @@ int main ()
 	    	break;
 	    	
 	    	case 4:
-	        printf("Obrigado por utilizar o sistema!\n");
-	        printf("\n\n\n*** Software desenvolvido por Vinicius Baptista ***");
-	        return 0;//retorna 0 para o sistema, e o encerra
+	    	sair();
 	        break;
 	     		     	
 	     	default:
@@ -229,7 +254,6 @@ int main ()
 
     }
 }
-
 
 
 
