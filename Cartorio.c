@@ -131,21 +131,27 @@ int deletar()
     scanf("%d", &resposta);//faz analise do questionamento
     }
     
-    if(resposta == 1)
+    if(resposta == 1) //caso a analise confirme a intenção, deleta o CPF solicitado
 	{		
 	    fclose(file);
-	    remove(cpf);//caso a analise confirme a intenção, deleta o CPF solicitado
+	    remove(cpf);
 	    printf("\nUsuário foi deletado com sucesso!\n\n");
 	    system("pause");
 	}
 	    
-    else
+    if(resposta == 2) //caso o usuário não queira deletar, retorna essa mensagem
 	{
 		fclose(file);
-	    printf("\nO usuário não foi deletado!\n\n");//caso o usuário não queira deletar, retorna essa mensagem
+	    printf("\nO usuário não foi deletado!\n\n");
 	    system("pause");
     }
-    
+    if(resposta >=3 || resposta <=0) //caso o usuário escolha uma opção fora das 2 disponiveis
+    {
+    	fclose(file);
+    	printf("\nEsta opção não está disponivel!");
+    	printf("\nO usuário não foi deletado!\n\n");
+    	system("pause");
+	}
 	
 	
 	fclose(file);
