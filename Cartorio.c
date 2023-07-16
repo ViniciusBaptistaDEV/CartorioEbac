@@ -175,10 +175,11 @@ int sair ()
 	switch(resposta) //faz a analise da resposta do usuário
 	{
 		case 1:
-		printf("\n\nObrigado por utilizar o sistema!\n");
+		system("cls"); //limpa a tela
+		printf("\nObrigado por utilizar o sistema!\n");
 	    printf("\n\n\n*** Software desenvolvido por Vinicius Baptista ***\n\n");
 	    system("pause");
-	    return 0;//retorna 0 para o sistema, e o encerra
+	    exit(0);//retorna 0 para o sistema, e o encerra
 	    break;
 	    
 		case 2:
@@ -186,7 +187,7 @@ int sair ()
 		break;
 	
 	    default:
-    	printf("\nOpção invalida!\n\n"); //retorna mensagem, e após retorna o sistema ao menu principal
+    	printf("\nOpção invalida, o sistema irá retornar ao menu inicial!\n\n"); //retorna mensagem, e após retorna o sistema ao menu principal
     	system("pause");
     	break;
 	}
@@ -254,8 +255,4 @@ int main ()
 
     }
 }
-
-
-
-
 
