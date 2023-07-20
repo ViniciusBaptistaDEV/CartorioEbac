@@ -197,62 +197,74 @@ int main ()
 {
 	int opcao=0;//Definindo variaveis
 	int repetir=1;
+	char senhadigitada[10]="a";
+	int comparacao;
 	
-	for(repetir=1;repetir=1;)
+	setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
+	
+	printf("### Cartório da EBAC ###\n\n");
+	printf("Login de administrador\n\nDigite a sua senha: ");
+	scanf("%s", senhadigitada); //salva a senha digitada
+	
+	comparacao = strcmp(senhadigitada, "admin"); //faz a comparação da senha digitada com a variavel
+	
+	if(comparacao == 0) //caso a senha esteja certa segue o codigo
 	{
+		system("cls");	
+		for(repetir=1;repetir=1;) // laço de repetição
+		{
 	
-	    system("cls");
+		    system("cls");
 		
-	    setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
+		    setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
 	
-	    printf("### Cartório da EBAC ###\n\n"); //Inicio do menu
-	    printf("Escolha a opção desejada do menu:\n\n");
-	    printf("\t1 - Registrar nomes\n");
-	    printf("\t2 - Consultar nomes\n");
-	    printf("\t3 - Deletar nomes\n\n");
-	    printf("\t4 - Sair do sistema\n\n");
-	    printf("Opção:"); //Fim do menu
+		    printf("### Cartório da EBAC ###\n\n"); //Inicio do menu
+		    printf("Escolha a opção desejada do menu:\n\n");
+		    printf("\t1 - Registrar nomes\n");
+		    printf("\t2 - Consultar nomes\n");
+		    printf("\t3 - Deletar nomes\n\n");
+		    printf("\t4 - Sair do sistema\n\n");
+		    printf("Opção:"); //Fim do menu
 	   		   	
-	    scanf("%d", &opcao); //Armazenando a escolha do usuário
+		    scanf("%d", &opcao); //Armazenando a escolha do usuário
 	 	
 	 
-	    system("cls"); //Limpar a tela após escolha do usuário
+		    system("cls"); //Limpar a tela após escolha do usuário
 	    
-	    switch(opcao) //Inicio da seleção
-	    {
-	    	case 1:
-	    	cadastro();	//chamada de função cadastro
-		    break;
+		    switch(opcao) //Inicio da seleção
+		    {
+		    	case 1:
+		    	cadastro();	//chamada de função cadastro
+			    break;
 		    
-		    case 2:
-		    consultar(); //chamada de função consultar
-	     	break;
+			    case 2:
+			    consultar(); //chamada de função consultar
+		     	break;
 	     	
-	     	case 3:
-	     	deletar(); //chamada de função deletar
-	    	break;
+		     	case 3:
+		     	deletar(); //chamada de função deletar
+		    	break;
 	    	
-	    	case 4:
-	    	sair();
-	        break;
+		    	case 4:
+		    	sair();
+		        break;
 	     		     	
-	     	default:
-	     	printf("Esta opção não está disponivel!\n\n"); //caso o usuário escolha uma opção fora das 4 disponiveis
-			system("pause"); 
-			break; //Fim da seleção
+		     	default:
+		     	printf("Esta opção não está disponivel!\n\n"); //caso o usuário escolha uma opção fora das 4 disponiveis
+				system("pause"); 
+				break; //Fim da seleção
 			
 			
 			
-		}
+			}
+	    }
+  	  
+	}
 	
-	    
-		
-		
-		
-		
-
-	
-
-    }
+	else
+		printf("\nSenha incorreta!\n\n"); // caso a senha do login esteja errada
+		system("pause");
+		system("cls");
+		main();
 }
 
