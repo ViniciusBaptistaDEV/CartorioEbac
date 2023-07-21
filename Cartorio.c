@@ -202,38 +202,39 @@ int cadastrologin ()
 	int resposta=0;
 	
 	printf("CADASTRO DE LOGIN\n\n");
-	printf("Digite o CPF do novo usuario: ");
-	scanf("%s", &cpfusuario); // salvando o CPF do usuario digitado
-
-	strcpy(arquivologin, cpfusuario); //responsavel por copiar os valores das strings - está dizendo que arquivo é igual ao CPF (o nome do arquivo será o CPF).
+	
+	printf("Digite o novo usuario: ");
+	scanf("%s", &usuario); // salvando o usuario digitado
+	
+	strcpy(arquivologin, usuario); //responsavel por copiar os valores das strings - está dizendo que arquivo é igual ao CPF (o nome do arquivo será o CPF).
 	FILE *file;
 
 	file = fopen(arquivologin, "w"); //criando o arquivo 
-	fprintf(file, cpfusuario); //salvando o CPF do usuario no arquivo
-	fclose(file);
-	
-	printf("\nDigite o novo usuario: ");
-	scanf("%s", &usuario); // salvando o usuario digitado
-
-	file = fopen(arquivologin, "a");
-	fprintf(file, "\n");
-	fclose(file);
-	
-	file = fopen(arquivologin, "a");
 	fprintf(file, usuario); //salvando o usuario no arquivo
 	fclose(file);
-
-	printf("\nDigite a nova senha: ");
-	scanf("%s", &senha); // salvando a senha digitada
-		
+	
 	file = fopen(arquivologin, "a");
 	fprintf(file, "\n");
 	fclose(file);
+	
+	printf("Digite a nova senha: ");
+	scanf("%s", &senha); // salvando a senha digitada
 		
 	file = fopen(arquivologin, "a");
 	fprintf(file, senha); //salvando a senha no arquivo
 	fclose(file);
 	
+	file = fopen(arquivologin, "a");
+	fprintf(file, "\n");
+	fclose(file);
+	
+	printf("Digite o CPF do novo usuario: ");
+	scanf("%s", &cpfusuario); // salvando o usuario digitado
+	
+	file = fopen(arquivologin, "a");
+	fprintf(file, cpfusuario); //salvando o CPF do usuario no arquivo
+	fclose(file);
+		
 	printf("\nLogin cadastrado com sucesso!\n\n");
 	printf("----------------------------------------\n\n");
 	printf("Deseja cadastrar outro login?\n\n");
