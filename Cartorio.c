@@ -14,6 +14,8 @@ int cadastro()//Função responsável por cadastrar usuários
     char cargo[40];
     //Fim da criação de variaveis
     
+    setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
+    
     printf("Digite o CPF a ser cadastrado: ");//Coletando informação do usuário
     scanf("%s", &cpf); //%s - refere-se a string
       
@@ -74,6 +76,8 @@ int consultar()
     char cpf[40];
     char conteudo[200];
     
+    setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
+    
     printf("Digite o CPF a ser consultado: ");
     scanf("%s", cpf);
     
@@ -102,7 +106,8 @@ int deletar()
 {
 	char cpf[40];
 	int resposta;
-	   
+	
+	setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país   
     
 	printf("Digite o CPF do usuário a ser deletado: ");
 	scanf("%s", &cpf);
@@ -201,6 +206,8 @@ int cadastrologin ()
 	char senha[40];
 	int resposta=0;
 	
+	setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
+	
 	printf("CADASTRO DE LOGIN\n\n");
 	
 	printf("Digite o novo usuario: ");
@@ -268,24 +275,43 @@ int main ()
 {
 	int opcao=0;//Definindo variaveis
 	int repetir=1;
-	char senhadigitada[10]="a";
-	int comparacao;
-	
+	char usuariodigitado[40]="a";
+	char senhadigitada[40]="a";
+	char usuariovalidacao[40];
+	char senhavalidacao[40];
+	int comparacaousuario;
+	int comparacaosenha;
+	int usuadmin;
+	int senadmin;
+		
 	setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
 	
 	printf("------------ Cartório da EBAC ------------\n\n");
-	printf("Login inicial\n\nDigite a sua senha: ");
-	scanf("%s", senhadigitada); //salva a senha digitada
+	printf("Faça o login para acessar o sistema\n\n");
+	printf("Digite o usuário: ");
+	scanf("%s", &usuariodigitado);
+	printf("Digite a sua senha: ");
+	scanf("%s", &senhadigitada); //salva a senha digitada
 	
-	comparacao = strcmp(senhadigitada, "admin"); //faz a comparação da senha digitada com a variavel
+	usuadmin = strcmp(usuariodigitado, "admin");
+	senadmin = strcmp(senhadigitada, "admin");
+		
+	FILE *file;
+		
+	file = fopen(usuariodigitado, "r");
+	fscanf(file, "%s %s", usuariovalidacao, senhavalidacao);
+	fclose(file);
 	
-	if(comparacao == 0) //caso a senha esteja certa segue o codigo
+	comparacaousuario = strcmp(usuariodigitado, usuariovalidacao);
+    comparacaosenha = strcmp(senhadigitada, senhavalidacao);
+    
+	if((comparacaousuario == 0 && comparacaosenha == 0) || (usuadmin == 0 && senadmin == 0)) //caso o usuario e senha esteja certo segue o codigo
 	{
 		system("cls");	
 		for(repetir=1;repetir=1;) // laço de repetição
 		{
 	
-		    system("cls");
+		    system("cls"); //limpa a tela
 		
 		    setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
 	
@@ -338,7 +364,8 @@ int main ()
 	}
 	
 	else
-		printf("\nSenha incorreta!\n\n"); // caso a senha do login esteja errada
+		printf("\nUsuário incorreto ou senha incorreta!\n"); // caso a senha do login esteja errada
+		printf("Tente novamente!\n\n");
 		system("pause");
 		system("cls");
 		main();
