@@ -102,7 +102,7 @@ int deletar()
 {
 	char cpf[40];
 	int resposta;
-    
+	   
     
 	printf("Digite o CPF do usuário a ser deletado: ");
 	scanf("%s", &cpf);
@@ -118,7 +118,7 @@ int deletar()
 		system("pause");
 		fclose(file);
 			
-		main();//retorna ao menu inicial
+		return;//retorna ao menu inicial
 		
 	}
 	
@@ -127,7 +127,7 @@ int deletar()
 	printf("\nVocê realmente deseja deletar este usuário?\n\n");//questiona se o usuário quer deletar o aquivo
 	printf("1 - Sim\n");
 	printf("2 - Não\n\n");
-    printf("Digite sua opção: ");
+    printf("Digite a opção desejada: ");
     scanf("%d", &resposta);//faz analise do questionamento
     }
     
@@ -167,9 +167,9 @@ int sair ()
 	int resposta=0;
 	
 	printf("Voce tem certeza que deseja sair do sistema?\n\n"); //Faz a validação se o usuário quer sair do sistema
-    printf("1 - Sair\n");
-	printf("2 - Voltar ao menu\n\n");
-	printf("Digite uma opção: ");
+    printf("1 - Encerrar\n");
+	printf("2 - Voltar ao menu inicial\n\n");
+	printf("Digite uma opção desejada: ");
 	scanf("%d", &resposta); //guarda a resposta do usuário
 	
 	switch(resposta) //faz a analise da resposta do usuário
@@ -177,13 +177,13 @@ int sair ()
 		case 1:
 		system("cls"); //limpa a tela
 		printf("\nObrigado por utilizar o sistema!\n");
-	    printf("\n\n\n*** Software desenvolvido por Vinicius Baptista ***\n\n");
+	    printf("\n\n\n*** Software desenvolvido por Vinicius Baptista ***\n\n\n\n");
 	    system("pause");
 	    exit(0);//retorna 0 para o sistema, e o encerra
 	    break;
 	    
 		case 2:
-		main(); //retorna ao menu principal
+		return; //retorna ao menu principal
 		break;
 	
 	    default:
@@ -191,6 +191,76 @@ int sair ()
     	system("pause");
     	break;
 	}
+}
+
+int cadastrologin ()
+{
+	char arquivologin[40];
+	char cpfusuario[40];
+	char usuario[40];
+	char senha[40];
+	int resposta=0;
+	
+	printf("CADASTRO DE LOGIN\n\n");
+	printf("Digite o CPF do novo usuario: ");
+	scanf("%s", &cpfusuario); // salvando o CPF do usuario digitado
+
+	strcpy(arquivologin, cpfusuario); //responsavel por copiar os valores das strings - está dizendo que arquivo é igual ao CPF (o nome do arquivo será o CPF).
+	FILE *file;
+
+	file = fopen(arquivologin, "w"); //criando o arquivo 
+	fprintf(file, cpfusuario); //salvando o CPF do usuario no arquivo
+	fclose(file);
+	
+	printf("\nDigite o novo usuario: ");
+	scanf("%s", &usuario); // salvando o usuario digitado
+
+	file = fopen(arquivologin, "a");
+	fprintf(file, "\n");
+	fclose(file);
+	
+	file = fopen(arquivologin, "a");
+	fprintf(file, usuario); //salvando o usuario no arquivo
+	fclose(file);
+
+	printf("\nDigite a nova senha: ");
+	scanf("%s", &senha); // salvando a senha digitada
+		
+	file = fopen(arquivologin, "a");
+	fprintf(file, "\n");
+	fclose(file);
+		
+	file = fopen(arquivologin, "a");
+	fprintf(file, senha); //salvando a senha no arquivo
+	fclose(file);
+	
+	printf("\nLogin cadastrado com sucesso!\n\n");
+	printf("----------------------------------------\n\n");
+	printf("Deseja cadastrar outro login?\n\n");
+	printf("1 - Cadastrar novo usuário e senha\n");
+	printf("2 - Voltar ao menu inicial\n");
+	printf("\nDigite a opção desejada: ");
+	scanf("%d", &resposta);
+	
+	switch(resposta)
+	{
+		case 1:
+		system("cls");
+		cadastrologin();
+		break;
+		
+		case 2:
+		return;
+		break;
+		
+		default:
+		printf("\nOpção invalida, o sistema irá retornar ao menu inicial!\n\n"); //retorna mensagem, e após retorna o sistema ao menu principal
+    	system("pause");
+    	break;
+	}
+	
+	
+	
 }
 
 int main ()
@@ -202,8 +272,8 @@ int main ()
 	
 	setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
 	
-	printf("### Cartório da EBAC ###\n\n");
-	printf("Login de administrador\n\nDigite a sua senha: ");
+	printf("------------ Cartório da EBAC ------------\n\n");
+	printf("Login inicial\n\nDigite a sua senha: ");
 	scanf("%s", senhadigitada); //salva a senha digitada
 	
 	comparacao = strcmp(senhadigitada, "admin"); //faz a comparação da senha digitada com a variavel
@@ -218,12 +288,13 @@ int main ()
 		
 		    setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
 	
-		    printf("### Cartório da EBAC ###\n\n"); //Inicio do menu
+		    printf("------------ Cartório da EBAC ------------\n\n"); //Inicio do menu
 		    printf("Escolha a opção desejada do menu:\n\n");
 		    printf("\t1 - Registrar nomes\n");
 		    printf("\t2 - Consultar nomes\n");
 		    printf("\t3 - Deletar nomes\n\n");
-		    printf("\t4 - Sair do sistema\n\n");
+		    printf("\t4 - Cadastrar novo login e senha\n");
+		    printf("\t5 - Encerrar o sistema\n\n");
 		    printf("Opção:"); //Fim do menu
 	   		   	
 		    scanf("%d", &opcao); //Armazenando a escolha do usuário
@@ -244,9 +315,13 @@ int main ()
 		     	case 3:
 		     	deletar(); //chamada de função deletar
 		    	break;
-	    	
-		    	case 4:
-		    	sair();
+	    		
+	    		case 4:
+	    		cadastrologin(); //chamada de função cadastrologin
+	    		break;
+	    		
+		    	case 5:
+		    	sair(); //chamada de função sair
 		        break;
 	     		     	
 		     	default:
