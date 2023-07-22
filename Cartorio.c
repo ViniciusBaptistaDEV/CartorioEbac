@@ -101,6 +101,7 @@ int consultar()
 	
     char cpf[40];
     char conteudo[200];
+    char resposta=0;
     
     setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
     
@@ -124,6 +125,30 @@ int consultar()
     fclose(file);
     
     system("pause");
+    
+    printf("\n----------------------------------------\n\n");
+	printf("Voce deseja realizar outra consulta?\n\n");
+	printf("1 - Nova consulta");
+	printf("\n2 - Voltar ao menu inicial\n");
+	printf("\nDigite a opção desejada: ");
+	scanf("%d", &resposta);
+	
+	switch(resposta)
+	{
+		case 1:
+		system("cls");
+		consultar(); // recomeça a função consulta
+		break;
+		
+		case 2:
+		return; // retorna ao menu inicial
+		break;
+		
+		default:
+		printf("\nOpção invalida, o sistema irá retornar ao menu inicial!\n\n"); //retorna mensagem, e após retorna o sistema ao menu principal
+    	system("pause");
+    	break;
+	}
     
 }
 
@@ -162,7 +187,7 @@ int deletar()
 		fscanf(file, "\nSOBRENOME: %99[^\n]", sobrenome); //vai ler o sobrenome até encontrar uma quabra de linha		
 		printf("\nVocê realmente deseja deletar este usuário?\n\n");//questiona se o usuário quer deletar o aquivo
 		printf("CPF: %s", cpf); // mostra o CPF do usuario a ser deletado
-		printf("\nNome: %s", nome); // mostra o nome do usuario a ser deletado
+		printf("\nNOME: %s", nome); // mostra o nome do usuario a ser deletado
 		printf("\x20 %s", sobrenome); // mostra o sobrenome do usuario a ser deletado
 		printf("\n\n1 - Sim\n");
 		printf("2 - Não\n\n");
