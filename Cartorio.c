@@ -105,12 +105,14 @@ int consultar()
 int deletar()
 {
 	char cpf[40];
+	char nome[100];
+	char sobrenome[100];
 	int resposta;
 	
 	setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país   
     
 	printf("Digite o CPF do usuário a ser deletado: ");
-	scanf("%s", &cpf);
+	scanf("%s", cpf);
 	
 	
 	FILE *file;
@@ -129,11 +131,17 @@ int deletar()
 	
 	else
 	{
-	printf("\nVocê realmente deseja deletar este usuário?\n\n");//questiona se o usuário quer deletar o aquivo
-	printf("1 - Sim\n");
-	printf("2 - Não\n\n");
-    printf("Digite a opção desejada: ");
-    scanf("%d", &resposta);//faz analise do questionamento
+		fscanf(file, "CPF: %s", cpf); //le o CPF do usuario no arquivo novamente
+		fscanf(file, "\nNOME: %99[^\n]", nome); // vai ler o nome até encontrar uma quebra de linha
+		fscanf(file, "\nSOBRENOME: %99[^\n]", sobrenome); //vai ler o sobrenome até encontrar uma quabra de linha		
+		printf("\nVocê realmente deseja deletar este usuário?\n\n");//questiona se o usuário quer deletar o aquivo
+		printf("CPF: %s", cpf); // mostra o CPF do usuario a ser deletado
+		printf("\nNome: %s", nome); // mostra o nome do usuario a ser deletado
+		printf("\x20 %s", sobrenome); // mostra o sobrenome do usuario a ser deletado
+		printf("\n\n1 - Sim\n");
+		printf("2 - Não\n\n");
+    	printf("Digite a opção desejada: ");
+    	scanf("%d", &resposta);//faz analise do questionamento
     }
     
     if(resposta == 1) //caso a analise confirme a intenção, deleta o CPF solicitado
@@ -217,7 +225,7 @@ int cadastrologin ()
 	FILE *file;
 
 	file = fopen(arquivologin, "w"); //criando o arquivo 
-	fprintf(file, usuario); //salvando o usuario no arquivo
+	fprintf(file, usuario); //salvando o usuario digitado no arquivo
 	fclose(file);
 	
 	file = fopen(arquivologin, "a");
@@ -228,7 +236,7 @@ int cadastrologin ()
 	scanf("%s", &senha); // salvando a senha digitada
 		
 	file = fopen(arquivologin, "a");
-	fprintf(file, senha); //salvando a senha no arquivo
+	fprintf(file, senha); //salvando a senha digitada no arquivo
 	fclose(file);
 	
 	file = fopen(arquivologin, "a");
@@ -254,11 +262,11 @@ int cadastrologin ()
 	{
 		case 1:
 		system("cls");
-		cadastrologin();
+		cadastrologin(); // recomeça a função cadastrologin
 		break;
 		
 		case 2:
-		return;
+		return; // retorna ao menu inicial
 		break;
 		
 		default:
@@ -293,19 +301,19 @@ int main ()
 	printf("Digite a sua senha: ");
 	scanf("%s", &senhadigitada); //salva a senha digitada
 	
-	usuadmin = strcmp(usuariodigitado, "admin");
-	senadmin = strcmp(senhadigitada, "admin");
+	usuadmin = strcmp(usuariodigitado, "admin"); //faz a comparação se o usuario digitado é "admin"
+	senadmin = strcmp(senhadigitada, "admin"); //faz a comparação se a senha digitada é "admin"
 		
 	FILE *file;
 		
 	file = fopen(usuariodigitado, "r");
-	fscanf(file, "%s %s", usuariovalidacao, senhavalidacao);
+	fscanf(file, "%s %s", usuariovalidacao, senhavalidacao);// vai buscar no arquivo os usuarios e senhas cadastrados
 	fclose(file);
 	
-	comparacaousuario = strcmp(usuariodigitado, usuariovalidacao);
-    comparacaosenha = strcmp(senhadigitada, senhavalidacao);
+	comparacaousuario = strcmp(usuariodigitado, usuariovalidacao);// faz a comparação do usuario digitado e do cadastrado
+    comparacaosenha = strcmp(senhadigitada, senhavalidacao);// faz a comparação da senha digitada e da cadastrada
     
-	if((comparacaousuario == 0 && comparacaosenha == 0) || (usuadmin == 0 && senadmin == 0)) //caso o usuario e senha esteja certo segue o codigo
+	if((comparacaousuario == 0 && comparacaosenha == 0) || (usuadmin == 0 && senadmin == 0)) //caso o usuario e senha esteja certo, ou seja "admin" segue o codigo
 	{
 		system("cls");	
 		for(repetir=1;repetir=1;) // laço de repetição
@@ -352,7 +360,7 @@ int main ()
 		        break;
 	     		     	
 		     	default:
-		     	printf("Esta opção não está disponivel!\n\n"); //caso o usuário escolha uma opção fora das 4 disponiveis
+		     	printf("Esta opção não está disponivel!\n\n"); //caso o usuário escolha uma opção fora das 5 disponiveis
 				system("pause"); 
 				break; //Fim da seleção
 			
@@ -364,7 +372,7 @@ int main ()
 	}
 	
 	else
-		printf("\nUsuário incorreto ou senha incorreta!\n"); // caso a senha do login esteja errada
+		printf("\nUsuário ou senha incorreto!\n"); // caso a senha do login esteja errada
 		printf("Tente novamente!\n\n");
 		system("pause");
 		system("cls");
