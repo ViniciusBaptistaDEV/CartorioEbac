@@ -12,9 +12,12 @@ int cadastro()//Função responsável por cadastrar usuários
     char nome[40];
     char sobrenome[40];
     char cargo[40];
+    int resposta=0;
     //Fim da criação de variaveis
     
     setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
+    
+    printf("REGISTRO DE NOMES\n\n");
     
     printf("Digite o CPF a ser cadastrado: ");//Coletando informação do usuário
     scanf("%s", &cpf); //%s - refere-se a string
@@ -62,9 +65,32 @@ int cadastro()//Função responsável por cadastrar usuários
 	fprintf(file, "\n\n");
 	fclose(file);
 	
-	system("pause"); //Para o sistema pausar para o usuário conseguir ler a mensagem
+	printf("Cadastro finalizado com sucesso!\n\n");
+		
+	printf("----------------------------------------\n\n");
+	printf("Voce deseja realizar outro cadastro?\n\n");
+	printf("1 - Novo cadastro");
+	printf("\n2 - Voltar ao menu inicial\n");
+	printf("\nDigite a opção desejada: ");
+	scanf("%d", &resposta);
 	
-    
+	switch(resposta)
+	{
+		case 1:
+		system("cls");
+		cadastro(); // recomeça a função cadastro
+		break;
+		
+		case 2:
+		return; // retorna ao menu inicial
+		break;
+		
+		default:
+		printf("\nOpção invalida, o sistema irá retornar ao menu inicial!\n\n"); //retorna mensagem, e após retorna o sistema ao menu principal
+    	system("pause");
+    	break;
+	}
+	
 }
 
 
@@ -330,7 +356,7 @@ int main ()
 		    printf("\t3 - Deletar nomes\n\n");
 		    printf("\t4 - Cadastrar novo login e senha\n");
 		    printf("\t5 - Encerrar o sistema\n\n");
-		    printf("Opção:"); //Fim do menu
+		    printf("Opção: "); //Fim do menu
 	   		   	
 		    scanf("%d", &opcao); //Armazenando a escolha do usuário
 	 	
