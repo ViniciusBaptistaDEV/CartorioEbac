@@ -23,7 +23,8 @@ int cadastro()//Função responsável por cadastrar usuários
     scanf("%s", &cpf); //%s - refere-se a string
       
     strcpy(arquivo, cpf); //responsavel por copiar os valores das strings - está dizendo que arquivo é igual ao CPF (o nome do arquivo será o CPF).
-    FILE *file; //cria o arquivo no computador
+    
+	FILE *file; //cria o arquivo no computador
    
     file = fopen(arquivo, "w"); //cria o arquivo no computador
     fprintf(file, "CPF: ");
@@ -72,7 +73,7 @@ int cadastro()//Função responsável por cadastrar usuários
 	printf("1 - Novo cadastro");
 	printf("\n2 - Voltar ao menu inicial\n");
 	printf("\nDigite a opção desejada: ");
-	scanf("%d", &resposta);
+	scanf("%d", &resposta);//faz a analise da resposta do usuario e salva na variavel
 	
 	switch(resposta)
 	{
@@ -87,7 +88,7 @@ int cadastro()//Função responsável por cadastrar usuários
 		
 		default:
 		printf("\nOpção invalida, o sistema irá retornar ao menu inicial!\n\n"); //retorna mensagem, e após retorna o sistema ao menu principal
-    	system("pause");
+    	system("pause");//pause o sistema para o usuario ler a mensagem
     	break;
 	}
 	
@@ -103,26 +104,28 @@ int consultar()
     char conteudo[200];
     char resposta=0;
     
-    setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
-    
     printf("Digite o CPF a ser consultado: ");
-    scanf("%s", cpf);
+    scanf("%s", cpf);//recebe o numero do CPF a ser consultado e salva na variavel
     
     FILE *file; //significa que precisamos consultar um arquivo no computador
-	file = fopen(cpf, "r");
+	file = fopen(cpf, "r");//vai ler o arquivo solicitado
 	
 	if(file == NULL)//caso o CPF não esteja cadastrado, retorna mensagem informando
 	{
-		printf("CPF não cadastrado em nosso banco de dados! \n\n");
+		printf("\nCPF não cadastrado em nosso banco de dados! \n\n");
 	}
     
-    printf("\nEssas são as informações do usuário: \n\n");
-    
-    while(fgets(conteudo, 200, file)!= NULL)//pesquisa o arquivo do CPF solicitado e retorna com as informações
+    else
     {
-    	printf("%s", conteudo);
-    }
-    fclose(file);
+		printf("\nEssas são as informações do usuário: \n\n");
+    
+   		while(fgets(conteudo, 200, file)!= NULL)//pesquisa o arquivo do CPF solicitado e retorna com as informações
+    	{
+    		printf("%s", conteudo);
+    	}
+	}
+    
+	fclose(file);
     
     system("pause");
     
@@ -162,20 +165,19 @@ int deletar()
 	
 	setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país   
     
-	printf("Digite o CPF do usuário a ser deletado: ");
-	scanf("%s", cpf);
+	printf("Digite o CPF do usuário a ser deletado: ");//recebe o CPF do usuario
+	scanf("%s", cpf);//salva na variavel o CPF digitado
 	
 	
 	FILE *file;
-	file = fopen(cpf, "r");
+	file = fopen(cpf, "r");//vai ler o arquivo do CPF digitado
 	
 	if(file == NULL)//caso o CPF não esteja cadastrado, retorna mensagem informando
 	{
 		fclose(file);
-		printf("\nO usuário não está cadastrado!\n\n");
+		printf("\nO usuário não está cadastrado!\n");
+		printf("O sistema irá retornar ao menu inicial!\n\n");
 		system("pause");
-		fclose(file);
-			
 		return;//retorna ao menu inicial
 		
 	}
@@ -187,7 +189,7 @@ int deletar()
 		fscanf(file, "\nSOBRENOME: %99[^\n]", sobrenome); //vai ler o sobrenome até encontrar uma quabra de linha		
 		printf("\nVocê realmente deseja deletar este usuário?\n\n");//questiona se o usuário quer deletar o aquivo
 		printf("CPF: %s", cpf); // mostra o CPF do usuario a ser deletado
-		printf("\nNOME: %s", nome); // mostra o nome do usuario a ser deletado
+		printf("\nNome: %s", nome); // mostra o nome do usuario a ser deletado
 		printf("\x20 %s", sobrenome); // mostra o sobrenome do usuario a ser deletado
 		printf("\n\n1 - Sim\n");
 		printf("2 - Não\n\n");
@@ -199,14 +201,16 @@ int deletar()
 	{		
 	    fclose(file);
 	    remove(cpf);
-	    printf("\nUsuário foi deletado com sucesso!\n\n");
+	    printf("\nUsuário foi deletado com sucesso!\n");
+	    printf("O sistema irá retornar ao menu inicial!\n\n");
 	    system("pause");
 	}
 	    
     if(resposta == 2) //caso o usuário não queira deletar, retorna essa mensagem
 	{
 		fclose(file);
-	    printf("\nO usuário não foi deletado!\n\n");
+	    printf("\nO usuário não foi deletado!\n");
+	    printf("O sistema irá retornar ao menu inicial!\n\n");
 	    system("pause");
     }
     if(resposta >=3 || resposta <=0) //caso o usuário escolha uma opção fora das 2 disponiveis
@@ -233,8 +237,8 @@ int sair ()
 	printf("Voce tem certeza que deseja sair do sistema?\n\n"); //Faz a validação se o usuário quer sair do sistema
     printf("1 - Encerrar\n");
 	printf("2 - Voltar ao menu inicial\n\n");
-	printf("Digite uma opção desejada: ");
-	scanf("%d", &resposta); //guarda a resposta do usuário
+	printf("Digite a opção desejada: ");//recebe a resposta do usuário
+	scanf("%d", &resposta); //salva a resposta do usuário
 	
 	switch(resposta) //faz a analise da resposta do usuário
 	{
@@ -243,7 +247,7 @@ int sair ()
 		printf("\nObrigado por utilizar o sistema!\n");
 	    printf("\n\n\n*** Software desenvolvido por Vinicius Baptista ***\n\n\n\n");
 	    system("pause");
-	    exit(0);//retorna 0 para o sistema, e o encerra
+	    exit(0);//encerra o sistema
 	    break;
 	    
 		case 2:
@@ -269,21 +273,21 @@ int cadastrologin ()
 	
 	printf("CADASTRO DE LOGIN\n\n");
 	
-	printf("Digite o novo usuario: ");
+	printf("Digite o novo usuario: ");//recebe o nome de usuario para acessar o sistema
 	scanf("%s", &usuario); // salvando o usuario digitado
 	
-	strcpy(arquivologin, usuario); //responsavel por copiar os valores das strings - está dizendo que arquivo é igual ao CPF (o nome do arquivo será o CPF).
+	strcpy(arquivologin, usuario); //responsavel por copiar os valores das strings - está dizendo que arquivo é igual ao usuario (o nome do arquivo será o USUARIO).
 	FILE *file;
 
 	file = fopen(arquivologin, "w"); //criando o arquivo 
 	fprintf(file, usuario); //salvando o usuario digitado no arquivo
 	fclose(file);
 	
-	file = fopen(arquivologin, "a");
-	fprintf(file, "\n");
+	file = fopen(arquivologin, "a");// adiciona algo no arquivo
+	fprintf(file, "\n");//adicionando uma quebra de linha no arquivo
 	fclose(file);
 	
-	printf("Digite a nova senha: ");
+	printf("Digite a nova senha: ");//recebe a senha digitada pelo usuario
 	scanf("%s", &senha); // salvando a senha digitada
 		
 	file = fopen(arquivologin, "a");
@@ -295,7 +299,7 @@ int cadastrologin ()
 	fclose(file);
 	
 	printf("Digite o CPF do novo usuario: ");
-	scanf("%s", &cpfusuario); // salvando o usuario digitado
+	scanf("%s", &cpfusuario); // salvando o CPF do usuario digitado na variavel
 	
 	file = fopen(arquivologin, "a");
 	fprintf(file, cpfusuario); //salvando o CPF do usuario no arquivo
@@ -307,7 +311,7 @@ int cadastrologin ()
 	printf("1 - Cadastrar novo usuário e senha\n");
 	printf("2 - Voltar ao menu inicial\n");
 	printf("\nDigite a opção desejada: ");
-	scanf("%d", &resposta);
+	scanf("%d", &resposta);//salva a resposta do usuario na variavel
 	
 	switch(resposta)
 	{
@@ -348,9 +352,9 @@ int main ()
 	printf("------------ Cartório da EBAC ------------\n\n");
 	printf("Faça o login para acessar o sistema\n\n");
 	printf("Digite o usuário: ");
-	scanf("%s", &usuariodigitado);
+	scanf("%s", &usuariodigitado);//salva o usuario digitado na string
 	printf("Digite a sua senha: ");
-	scanf("%s", &senhadigitada); //salva a senha digitada
+	scanf("%s", &senhadigitada); //salva a senha digitada na string
 	
 	usuadmin = strcmp(usuariodigitado, "admin"); //faz a comparação se o usuario digitado é "admin"
 	senadmin = strcmp(senhadigitada, "admin"); //faz a comparação se a senha digitada é "admin"
@@ -375,17 +379,15 @@ int main ()
 		    setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
 	
 		    printf("------------ Cartório da EBAC ------------\n\n"); //Inicio do menu
-		    printf("Escolha a opção desejada do menu:\n\n");
+		    printf("Escolha a opção desejada no menu:\n\n");
 		    printf("\t1 - Registrar nomes\n");
 		    printf("\t2 - Consultar nomes\n");
 		    printf("\t3 - Deletar nomes\n\n");
 		    printf("\t4 - Cadastrar novo login e senha\n");
 		    printf("\t5 - Encerrar o sistema\n\n");
-		    printf("Opção: "); //Fim do menu
-	   		   	
-		    scanf("%d", &opcao); //Armazenando a escolha do usuário
+		    printf("Opção desejada: "); //Fim do menu
+	   		scanf("%d", &opcao); //Armazenando a escolha do usuário
 	 	
-	 
 		    system("cls"); //Limpar a tela após escolha do usuário
 	    
 		    switch(opcao) //Inicio da seleção
