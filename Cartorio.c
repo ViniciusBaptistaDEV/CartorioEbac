@@ -269,6 +269,8 @@ int cadastrologin ()
 	char cpfusuario[40];
 	char usuario[40];
 	char senha[40];
+	char usuariovalidacao[40];
+	int comparacaousuario;
 	int resposta=0;
 	
 	setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
@@ -278,6 +280,25 @@ int cadastrologin ()
 	printf("Digite o novo usuario: ");//recebe o nome de usuario para acessar o sistema
 	scanf("%s", &usuario); // salvando o usuario digitado
 	
+	FILE *file;
+	file = fopen(usuario, "r");
+	fscanf(file, "%s", usuariovalidacao);// vai buscar no arquivo os usuarios e senhas cadastrados
+	fclose(file);
+	
+	comparacaousuario = strcmp(usuario, usuariovalidacao);// faz a comparação do usuario digitado e do cadastrado
+    
+	if(comparacaousuario == 0)
+	{
+		printf("\n----------------------------------------\n");
+		printf("\nEste usuário já existe, favor digitar um usuário diferente!\n\n");
+		system("pause");
+		system("cls");
+		cadastrologin();
+	}
+	
+	else
+	{
+		
 	strcpy(arquivologin, usuario); //responsavel por copiar os valores das strings - está dizendo que arquivo é igual ao usuario (o nome do arquivo será o USUARIO).
 	FILE *file;
 
@@ -314,7 +335,7 @@ int cadastrologin ()
 	printf("2 - Voltar ao menu inicial\n");
 	printf("\nDigite a opção desejada: ");
 	scanf("%d", &resposta);//salva a resposta do usuario na variavel
-	
+		
 	switch(resposta)
 	{
 		case 1:
@@ -332,6 +353,7 @@ int cadastrologin ()
     	break;
 	}
 	
+	}
 	
 	
 }
@@ -341,13 +363,16 @@ int alterarlogin()
 	char usuariodigitado[40]="a";
 	char senhadigitada[40]="a";
 	char usuariovalidacao[40];
+	char usuariovalidacao2[40];
 	char senhavalidacao[40];
 	int comparacaousuario;
 	int comparacaosenha;
+	int comparacaousuario2;
 	char novousuario[40];
 	char novasenha[40];
 	char novocpf [11];
 	int opcaoerro=0;
+	
 	
 	setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
 	
@@ -366,67 +391,93 @@ int alterarlogin()
 	comparacaousuario = strcmp(usuariodigitado, usuariovalidacao);// faz a comparação do usuario digitado e do cadastrado
     comparacaosenha = strcmp(senhadigitada, senhavalidacao);// faz a comparação da senha digitada e da cadastrada
     
-	if(comparacaousuario == 0 && comparacaosenha == 0) //caso o usuario e senha esteja certo libera para fazer a alteração
-	{
-		printf("\nDigite o novo usuário: ");
-		scanf("%s", &novousuario);
-		printf("Digite a nova senha: ");
-		scanf("%s", &novasenha);
-		printf("Digite seu CPF: ");
-		scanf("%s", novocpf);
-		
-		remove(usuariodigitado);//remove o usuario atual
-		remove(senhadigitada);//remove a senha atual
-		
-		file = fopen(usuariodigitado, "a");
-		fprintf(file, "%s", novousuario);//salva o novo usuario no arquivo
-		fclose(file);
-		
-		file = fopen(usuariodigitado, "a");
-		fprintf(file, "\n");
-		fclose(file);
-		
-		file = fopen(usuariodigitado, "a");
-		fprintf(file, "%s", novasenha);//salva a nova senha no arquivo
-		fclose(file);
-		
-		file = fopen(usuariodigitado, "a");
-		fprintf(file, "\n");
-		fclose(file);
-		
-		file = fopen(usuariodigitado, "a");
-		fprintf(file, "%s", novocpf);//salva o CPF do usuario no arquivo
-		fclose(file);
-		
-		rename(usuariodigitado, novousuario);//renomeia o arquivo com o nome do novo usuario
-		
-		printf("\n\nUsuário alterado com sucesso!\n\n");
-		system("pause");
-		
-	}
+    
 	
-	else
-	{
-		printf("----------------------------------------\n");
-		printf("\nUsuário ou senha atual incorreto!\n\n");
-		printf("Deseja tentar novamente?\n\n");
-		printf("1 - Tentar novamente\n");
-		printf("2 - Retornar ao menu inicial\n\n");
-		printf("Digite a opção desejada: ");
-		scanf("%d", &opcaoerro);
-		
-		switch(opcaoerro)
+		if(comparacaousuario == 0 && comparacaosenha == 0) //caso o usuario e senha esteja certo libera para fazer a alteração
 		{
-			case 1:
-			system("cls");
-			alterarlogin();
-			break;
+			printf("\nDigite o novo usuário: ");
+			scanf("%s", &novousuario);
 			
-			case 2:
-			return;
-			break;
+			FILE *file;
+		
+			file = fopen(novousuario, "r");
+			fscanf(file, "%s", usuariovalidacao2);// vai buscar no arquivo os usuarios cadastrados
+			fclose(file);
+			
+			comparacaousuario2 = strcmp(novousuario, usuariovalidacao2);//faz a caomparação do usuário novo com os cadastrados
+		
+			if(comparacaousuario2 == 0)//se o novo usuario já existir
+			{
+				printf("\n----------------------------------------\n");
+				printf("\nEste usuário já existe, favor digitar um usuário diferente!\n\n");
+				system("pause");
+				system("cls");
+				alterarlogin();
+			}
+		
+			else//se o novo usuario não estiver em uso
+			{
+		
+				printf("Digite a nova senha: ");
+				scanf("%s", &novasenha);//guarda a nova senha
+				printf("Digite seu CPF: ");
+				scanf("%s", novocpf);//guarda o CPF
+		
+				remove(usuariodigitado);//remove o usuario atual
+				remove(senhadigitada);//remove a senha atual
+		
+				file = fopen(usuariodigitado, "a");
+				fprintf(file, "%s", novousuario);//salva o novo usuario no arquivo
+				fclose(file);
+		
+				file = fopen(usuariodigitado, "a");
+				fprintf(file, "\n");
+				fclose(file);
+		
+				file = fopen(usuariodigitado, "a");
+				fprintf(file, "%s", novasenha);//salva a nova senha no arquivo
+				fclose(file);
+		
+				file = fopen(usuariodigitado, "a");
+				fprintf(file, "\n");
+				fclose(file);
+		
+				file = fopen(usuariodigitado, "a");
+				fprintf(file, "%s", novocpf);//salva o CPF do usuario no arquivo
+				fclose(file);
+		
+				rename(usuariodigitado, novousuario);//renomeia o arquivo com o nome do novo usuario
+		
+				printf("\n\nUsuário alterado com sucesso!\n\n");
+				system("pause");
+				
+			}
 		}
-	}
+
+	
+	
+		else
+		{
+			printf("----------------------------------------\n");
+			printf("\nUsuário ou senha atual incorreto!\n\n");
+			printf("Deseja tentar novamente?\n\n");
+			printf("1 - Tentar novamente\n");
+			printf("2 - Retornar ao menu inicial\n\n");
+			printf("Digite a opção desejada: ");
+			scanf("%d", &opcaoerro);
+		
+			switch(opcaoerro)
+			{
+				case 1:
+				system("cls");
+				alterarlogin();
+				break;
+			
+				case 2:
+				return;
+				break;
+			}
+		}
 	
 }
 
