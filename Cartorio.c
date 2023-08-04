@@ -17,7 +17,7 @@ int cadastro()//Função responsável por cadastrar usuários
     
     setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
     
-    printf("REGISTRO DE NOMES\n\n");
+    printf("REGISTRO DE USUÁRIOS\n\n");
     
     printf("Digite o CPF a ser cadastrado: ");//Coletando informação do usuário
     scanf("%s", &cpf); //%s - refere-se a string
@@ -97,13 +97,14 @@ int cadastro()//Função responsável por cadastrar usuários
 
 int consultar()
 {
-	
-	setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
-	
+		
     char cpf[40];
     char conteudo[200];
     char resposta=0;
     
+    setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
+    
+    printf("CONSULTA DE USUÁRIOS\n\n");
     printf("Digite o CPF a ser consultado: ");
     scanf("%s", cpf);//recebe o numero do CPF a ser consultado e salva na variavel
     
@@ -165,6 +166,7 @@ int deletar()
 	
 	setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país   
     
+    printf("EXCLUSÃO DE USUÁRIOS\n\n");
 	printf("Digite o CPF do usuário a ser deletado: ");//recebe o CPF do usuario
 	scanf("%s", cpf);//salva na variavel o CPF digitado
 	
@@ -334,6 +336,100 @@ int cadastrologin ()
 	
 }
 
+int alterarlogin()
+{
+	char usuariodigitado[40]="a";
+	char senhadigitada[40]="a";
+	char usuariovalidacao[40];
+	char senhavalidacao[40];
+	int comparacaousuario;
+	int comparacaosenha;
+	char novousuario[40];
+	char novasenha[40];
+	char novocpf [11];
+	int opcaoerro=0;
+	
+	setlocale(LC_ALL, "Portuguese"); //Definindo o idioma do país
+	
+	printf("ALTERAÇÃO DE LOGIN\n\n");
+	printf("Digite o usuário atual: ");
+	scanf("%s", &usuariodigitado);//salva o usuario digitado na string
+	printf("Digite a senha atual: ");
+	scanf("%s", &senhadigitada); //salva a senha digitada na string
+		
+	FILE *file;
+		
+	file = fopen(usuariodigitado, "r");
+	fscanf(file, "%s %s", usuariovalidacao, senhavalidacao);// vai buscar no arquivo os usuarios e senhas cadastrados
+	fclose(file);
+	
+	comparacaousuario = strcmp(usuariodigitado, usuariovalidacao);// faz a comparação do usuario digitado e do cadastrado
+    comparacaosenha = strcmp(senhadigitada, senhavalidacao);// faz a comparação da senha digitada e da cadastrada
+    
+	if(comparacaousuario == 0 && comparacaosenha == 0) //caso o usuario e senha esteja certo libera para fazer a alteração
+	{
+		printf("\nDigite o novo usuário: ");
+		scanf("%s", &novousuario);
+		printf("Digite a nova senha: ");
+		scanf("%s", &novasenha);
+		printf("Digite seu CPF: ");
+		scanf("%s", novocpf);
+		
+		remove(usuariodigitado);//remove o usuario atual
+		remove(senhadigitada);//remove a senha atual
+		
+		file = fopen(usuariodigitado, "a");
+		fprintf(file, "%s", novousuario);//salva o novo usuario no arquivo
+		fclose(file);
+		
+		file = fopen(usuariodigitado, "a");
+		fprintf(file, "\n");
+		fclose(file);
+		
+		file = fopen(usuariodigitado, "a");
+		fprintf(file, "%s", novasenha);//salva a nova senha no arquivo
+		fclose(file);
+		
+		file = fopen(usuariodigitado, "a");
+		fprintf(file, "\n");
+		fclose(file);
+		
+		file = fopen(usuariodigitado, "a");
+		fprintf(file, "%s", novocpf);//salva o CPF do usuario no arquivo
+		fclose(file);
+		
+		rename(usuariodigitado, novousuario);//renomeia o arquivo com o nome do novo usuario
+		
+		printf("\n\nUsuário alterado com sucesso!\n\n");
+		system("pause");
+		
+	}
+	
+	else
+	{
+		printf("----------------------------------------\n");
+		printf("\nUsuário ou senha atual incorreto!\n\n");
+		printf("Deseja tentar novamente?\n\n");
+		printf("1 - Tentar novamente\n");
+		printf("2 - Retornar ao menu inicial\n\n");
+		printf("Digite a opção desejada: ");
+		scanf("%d", &opcaoerro);
+		
+		switch(opcaoerro)
+		{
+			case 1:
+			system("cls");
+			alterarlogin();
+			break;
+			
+			case 2:
+			return;
+			break;
+		}
+	}
+	
+}
+
 int main ()
 {
 	int opcao=0;//Definindo variaveis
@@ -384,7 +480,8 @@ int main ()
 		    printf("\t2 - Consultar nomes\n");
 		    printf("\t3 - Deletar nomes\n\n");
 		    printf("\t4 - Cadastrar novo login e senha\n");
-		    printf("\t5 - Encerrar o sistema\n\n");
+		    printf("\t5 - Alterar login e senha\n\n");
+		    printf("\t6 - Encerrar o sistema\n\n");
 		    printf("Opção desejada: "); //Fim do menu
 	   		scanf("%d", &opcao); //Armazenando a escolha do usuário
 	 	
@@ -408,7 +505,11 @@ int main ()
 	    		cadastrologin(); //chamada de função cadastrologin
 	    		break;
 	    		
-		    	case 5:
+	    		case 5:
+	    		alterarlogin();
+	    		break;
+	    		
+		    	case 6:
 		    	sair(); //chamada de função sair
 		        break;
 	     		     	
